@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// 1. 用户表 (通过钱包登录)
+model User {
+  id            String   @id @default(cuid())
+  walletAddress String   @unique // 钱包地址是唯一标识
+  username      String?
+  avatar        String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // 关联关系
+  nfts          Nft[]
+}
+
+// 2. NFT 表 (链上数据的索引缓存)
+model Nft {
+  id        String   @id @default(cuid())
+  tokenId   Int      
+  contract  String   // 合约地址
+  
+  // 关联拥有者
+  ownerId   String
+  owner     User     @relation(fields: [ownerId], references: [id])
+  
+  // 元数据
+  imageUrl  String
+  name      String
+  desc      String?
+  
+  // 复合唯一索引：同一个合约下的同一个 TokenID 只能有一条记录
+  @@unique([contract, tokenId])
+}
