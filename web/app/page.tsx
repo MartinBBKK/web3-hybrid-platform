@@ -4,6 +4,8 @@ import { ConnectKitButton } from "connectkit";
 import { useReadContract, useAccount } from "wagmi";
 import { formatEther } from "viem";
 import { CONTRACT_ABI, CONTRACT_ADDRESS } from "../constants";
+import { MintSection } from "../components/MintSection"; // 👈 引入
+import { Gallery } from "../components/Gallery"; // 👈 引入
 
 export default function Home() {
   const { isConnected } = useAccount();
@@ -34,17 +36,33 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-gradient-to-b from-gray-900 to-black text-white">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Hybrid NFT Platform
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white lg:static lg:h-auto lg:w-auto lg:bg-none">
-          {/* 👇 ConnectKit 提供的超强按钮 */}
+      {/* 顶部导航栏 */}
+      <nav className="fixed top-0 left-0 w-full z-50 px-6 py-4 flex justify-between items-center backdrop-blur-md bg-black/20 border-b border-white/5">
+
+        {/* 左侧 Logo */}
+        <div className="flex items-center gap-3 group cursor-pointer">
+          <div className="relative w-10 h-10 flex items-center justify-center bg-gradient-to-tr from-purple-600 to-pink-600 rounded-xl shadow-lg group-hover:rotate-12 transition-transform duration-300">
+            <span className="text-white font-black text-xl italic font-mono">H</span>
+            <div className="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+          </div>
+          <div className="flex flex-col">
+            <span className="font-bold text-lg leading-none tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300">
+              HYBRID
+            </span>
+            <span className="text-[10px] font-mono leading-none text-purple-400 tracking-[0.3em] mt-1">
+              PLATFORM
+            </span>
+          </div>
+        </div>
+
+        {/* 右侧钱包按钮 */}
+        <div className="flex items-center gap-4">
           <ConnectKitButton />
         </div>
-      </div>
+      </nav>
 
-      <div className="relative flex place-items-center">
+      {/* 主内容区域，增加顶部 padding 防止被导航栏遮挡 */}
+      <div className="relative flex flex-col items-center pt-20 w-full">
         <div className="text-center">
           <h1 className="text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
             CyberPunk Collection
@@ -75,6 +93,11 @@ export default function Home() {
             </div>
           )}
         </div>
+        {/* 👇 把 Mint 组件放在这里 */}
+        <div className="mt-12 w-full">
+          <MintSection />
+        </div>
+        <Gallery />
       </div>
 
       <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">

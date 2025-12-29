@@ -17,7 +17,8 @@ const config = createConfig(
 
         chains: [sepolia],
         transports: {
-            [sepolia.id]: http(), // 使用默认 RPC
+            [sepolia.id]: http("https://ethereum-sepolia.publicnode.com"),
+            // [sepolia.id]: http(), // 使用默认 RPC
         },
         ssr: true, // 开启服务端渲染支持
     })
